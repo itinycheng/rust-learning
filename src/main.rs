@@ -1,44 +1,51 @@
 mod basic;
 
-use crate::basic::traits::{Square, get_area_girth, sum_area};
-use crate::basic::file::{read_file, write_to_file};
+use crate::basic::file::proc_file;
 use crate::basic::expr::proc_expr;
 use crate::basic::datatype::proc_data;
-use crate::basic::operator::operate;
-use crate::basic::lifetime::life_time;
-use crate::basic::function::func;
+use crate::basic::operator::proc_operate;
+use crate::basic::lifetime::proc_lifetime;
+use crate::basic::function::proc_func;
+use crate::basic::traits::proc_trait;
+use crate::basic::generic::proc_generic;
+use crate::basic::closure::proc_closure;
+use crate::basic::collection::{proc_collection, proc_iterator};
+use crate::basic::exception::proc_exception;
+use crate::basic::macs::proc_macro;
 
-const FILE_PATH: &'static str = "/Users/tiny/Applications/IdeaProjects/rust-learning/.gitignore";
-
-#[allow(dead_code)]
 fn main() {
     // data type
     println!("-------------data type----------");
     proc_data();
     // trait
     println!("-------------trait----------");
-    let square = &Square { x: 1, y: 2, side: 5f64 };
-    let (area, girth) = get_area_girth(square);
-    let sum_area = sum_area(square, square);
-    println!("square area={}, girth={}, sum={}", area, girth, sum_area);
+    proc_trait();
     // file
     println!("-------------file----------");
-    read_file(FILE_PATH);
-    write_to_file(FILE_PATH);
+    proc_file();
     // expr
     println!("-------------expr----------");
     proc_expr();
     println!("-------------operator----------");
-    operate();
+    proc_operate();
     println!("-------------lifetime----------");
-    life_time();
+    proc_lifetime();
     println!("-------------function----------");
-    func();
+    proc_func();
+    println!("-------------generic----------");
+    proc_generic();
+    println!("-------------closure----------");
+    proc_closure();
+    println!("-------------collection----------");
+    proc_collection();
+    proc_iterator();
+    println!("-------------handle exception----------");
+    proc_exception();
+    println!("-------------macro----------");
+    proc_macro();
+    let name = "tiny";
+    print_sth!(name);
     println!("-------------other----------");
-    // 0
-    match_int(6);
-    match_tuple((1, 1));
-
     // function
     let plus_num = |x: i32| x + 2;
     println!("plus_num, {}", plus_num(5));
@@ -56,7 +63,6 @@ fn main() {
 
     let box_fn = factory(2);
     println!("box_fn, {}", box_fn(2));
-
 }
 
 
@@ -68,21 +74,4 @@ fn apply<F>(f: F, y: i32) -> i32
     where F: Fn(i32, i32) -> i32
 {
     f(y, y)
-}
-
-fn match_int(i: i32) {
-    match i {
-        e @ 1..=5 => println!("match_int: weekday = {}", e),
-        6 | 7 => println!("match_int: weekend = {}", i),
-        n if n > 0 => println!("match_int: positive = {}", n),
-        _ => println!("match_int: invalid")
-    }
-}
-
-fn match_tuple(tuple: (i32, i32)) {
-    match tuple {
-        (0, y) => println!("match_tuple: tuple x=0, y={}", y),
-        (x, 0) => println!("match_tuple: tuple x={}, y=0", x),
-        _ => println!("match_tuple: tuple x={}, y={}", tuple.0, tuple.1)
-    }
 }

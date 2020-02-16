@@ -16,7 +16,7 @@ impl Wrap {
     }
 }
 
-pub fn life_time() {
+pub fn proc_lifetime() {
     let mut wrap = Wrap{i: 1};
     wrap.add_one();
     wrap.add_two();
