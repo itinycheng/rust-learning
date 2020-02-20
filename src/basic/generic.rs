@@ -6,7 +6,7 @@ struct Point<T> {
     y: T,
 }
 
-impl<T: Add<Output=T>> Add for Point<T> {
+impl<T: Add<Output = T>> Add for Point<T> {
     type Output = Self;
 
     fn add(self, rhs: Self) -> Self::Output {

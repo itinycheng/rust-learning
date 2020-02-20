@@ -2,7 +2,7 @@
 macro_rules! print_sth {
     ($x:ident) => {
         println!("print_sth {}", $x);
-    }
+    };
 }
 
 macro_rules! vector {
@@ -27,8 +27,8 @@ macro_rules! find_min {
 pub fn proc_macro() {
     let a = "fd";
     print_sth!(a);
-    let vec = vector!(1,2,3);
+    let vec = vector!(1, 2, 3);
     println!("vec {:?}", vec);
-    let min = find_min!(5,2,3);
+    let min = find_min!(5, 2, 3);
     println!("min {}", min);
 }

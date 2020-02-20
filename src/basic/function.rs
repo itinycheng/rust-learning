@@ -26,12 +26,16 @@ fn call(i: i32, func: IncType) -> i32 {
 }
 
 fn call_1<F>(i: i32, func: F) -> i32
-    where F: Fn(i32) -> i32 {
+where
+    F: Fn(i32) -> i32,
+{
     func(i)
 }
 
 fn rtn_func(i: i32) -> fn(i32) -> i32 {
-    fn print() { println!("inner func"); }
+    fn print() {
+        println!("inner func");
+    }
     print();
     if i > 0 {
         inc

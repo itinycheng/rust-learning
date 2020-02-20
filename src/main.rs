@@ -1,17 +1,19 @@
 mod basic;
 
-use crate::basic::file::proc_file;
-use crate::basic::expr::proc_expr;
-use crate::basic::datatype::proc_data;
-use crate::basic::operator::proc_operate;
-use crate::basic::lifetime::proc_lifetime;
-use crate::basic::function::proc_func;
-use crate::basic::traits::proc_trait;
-use crate::basic::generic::proc_generic;
+use crate::basic::build_in_traits::proc_build_in_traits;
 use crate::basic::closure::proc_closure;
 use crate::basic::collection::{proc_collection, proc_iterator};
+use crate::basic::datatype::proc_data;
 use crate::basic::exception::proc_exception;
+use crate::basic::expr::proc_expr;
+use crate::basic::file::proc_file;
+use crate::basic::function::proc_func;
+use crate::basic::generic::proc_generic;
+use crate::basic::lifetime::proc_lifetime;
 use crate::basic::macs::proc_macro;
+use crate::basic::operator::proc_operate;
+use crate::basic::thread::proc_thread;
+use crate::basic::traits::proc_trait;
 
 fn main() {
     // data type
@@ -45,6 +47,11 @@ fn main() {
     proc_macro();
     let name = "tiny";
     print_sth!(name);
+    println!("-------------thread----------");
+    proc_thread();
+
+    println!("-------------build in traits----------");
+    proc_build_in_traits();
     println!("-------------other----------");
     // function
     let plus_num = |x: i32| x + 2;
@@ -65,13 +72,13 @@ fn main() {
     println!("box_fn, {}", box_fn(2));
 }
 
-
 fn factory(x: i32) -> Box<dyn Fn(i32) -> i32> {
     Box::new(move |y| x + y)
 }
 
 fn apply<F>(f: F, y: i32) -> i32
-    where F: Fn(i32, i32) -> i32
+where
+    F: Fn(i32, i32) -> i32,
 {
     f(y, y)
 }

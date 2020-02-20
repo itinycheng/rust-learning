@@ -8,7 +8,8 @@ pub fn proc_collection() {
 pub fn proc_iterator() {
     // 惰性计算
     let seq = (1..).into_iter();
-    let collected = seq.take_while(|x| *x < 10)
+    let collected = seq
+        .take_while(|x| *x < 10)
         .map(|x| x * x)
         .filter(|x| x % 2 == 0)
         .collect::<Vec<i32>>()
@@ -22,7 +23,9 @@ pub fn proc_iterator() {
     let mut scores = vec![10, 20, 30];
     let map: HashMap<_, _> = names.iter().zip(scores.iter()).collect();
     println!("iterator map result {:?}", map);
-    names.iter().enumerate()
+    names
+        .iter()
+        .enumerate()
         .filter(|&(index, _)| index % 2 == 0)
         .map(|(_, &item)| item)
         .take(2)

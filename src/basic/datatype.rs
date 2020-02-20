@@ -76,7 +76,10 @@ pub fn proc_data() {
     let Point3D { x: x0, y: y0, .. } = point3d;
     println!("point3d x0={}, y0={}", x0, y0);
     // 11
-    let point2d = Point2D { x: 1, y: Cell::from(2) };
+    let point2d = Point2D {
+        x: 1,
+        y: Cell::from(2),
+    };
     point2d.y.set(3);
     println!("point2d x={}, y={}", point2d.x, point2d.y.get());
     // 12
@@ -84,7 +87,11 @@ pub fn proc_data() {
     let graph_point = graph::Point::default();
     println!("graph point x={}", graph_point.x);
     // 13
-    let circle_1 = Circle { x: 1, y: 2, radius: 3 };
+    let circle_1 = Circle {
+        x: 1,
+        y: 2,
+        radius: 3,
+    };
     let circle_2 = Circle::new(2, 3, 4);
     println!("circle_1={}, circle_2={}", circle_1.area(), circle_2.area());
     println!("circle_1 x={}, y={}", circle_1.x, circle_1.y);
@@ -108,7 +115,6 @@ struct Point {
     y: i32,
 }
 
-
 #[derive(Default)]
 struct Point3D {
     x: i32,
@@ -121,7 +127,6 @@ struct Point2D {
     y: Cell<i32>,
 }
 
-
 struct Circle {
     x: i32,
     y: i32,
@@ -130,18 +135,13 @@ struct Circle {
 
 impl Circle {
     fn new(x: i32, y: i32, radius: i32) -> Circle {
-        Circle {
-            x,
-            y,
-            radius,
-        }
+        Circle { x, y, radius }
     }
 
     fn area(&self) -> f64 {
         std::f64::consts::PI * (self.radius as f64) * (self.radius as f64)
     }
 }
-
 
 fn match_message(msg: Message) -> () {
     match msg {

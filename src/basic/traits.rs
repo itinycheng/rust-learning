@@ -1,4 +1,4 @@
-use std::fmt::{Debug, Formatter, Error};
+use std::fmt::{Debug, Error, Formatter};
 
 trait PrintSomething {
     fn gene(&self) -> &str;
@@ -23,7 +23,11 @@ struct Square {
 
 impl Debug for Square {
     fn fmt(&self, f: &mut Formatter<'_>) -> Result<(), Error> {
-        write!(f, "Square {{ x:{}, y:{}, side:{} }}", self.x, self.y, self.side)
+        write!(
+            f,
+            "Square {{ x:{}, y:{}, side:{} }}",
+            self.x, self.y, self.side
+        )
     }
 }
 
@@ -51,7 +55,6 @@ impl HasGirth for Square {
     }
 }
 
-
 fn get_area_girth<T: HasArea + HasGirth>(shape: &T) -> (f64, f64) {
     (shape.area(), shape.girth())
 }
@@ -62,8 +65,10 @@ fn sum_girth(shape_a: &impl HasGirth, shape_b: &(impl HasArea + HasGirth)) -> f6
 }
 
 fn sum_area<T, K>(shape_a: &T, shape_b: &K) -> f64
-    where T: HasArea,
-          K: HasArea + HasGirth {
+where
+    T: HasArea,
+    K: HasArea + HasGirth,
+{
     println!("traits: girth of shape_b is {}", shape_b.girth());
     shape_a.area() + shape_b.area()
 }
@@ -84,11 +89,14 @@ fn rtn_func() -> fn(&Square) -> f64 {
     |square: &Square| square.area()
 }
 
-
 // `impl Trait`包含两个指针，一个指向实例对象，一个指向虚函数表的函数实现
 pub fn proc_trait() {
     println!("f64 girth {}", 5f64.girth());
-    let square = &Square { x: 1, y: 2, side: 5f64 };
+    let square = &Square {
+        x: 1,
+        y: 2,
+        side: 5f64,
+    };
     println!("square debug {:?}", square);
     let (area, girth) = get_area_girth(square);
     let sum_area = sum_area(square, square);

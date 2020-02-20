@@ -1,12 +1,12 @@
 use std::fs::File;
-use std::path::Path;
 use std::io::Read;
+use std::path::Path;
 
 pub fn proc_exception() {
     let file_name = "file.rs";
     match find(file_name, '.') {
         Some(x) => println!("find {} at position {}", ".", x),
-        None => println!("no found")
+        None => println!("no found"),
     }
 
     let result = find(file_name, '.')
@@ -21,7 +21,7 @@ pub fn proc_exception() {
 
     match file_double("a.rd") {
         Ok(x) => println!("get result succeed {}", x),
-        Err(_) => println!("err found")
+        Err(_) => println!("err found"),
     }
 }
 
@@ -41,10 +41,14 @@ fn file_double(path: &str) -> Result<i32, String> {
             file.read_to_string(&mut contents)
                 .map_err(|err| err.to_string())
                 .map(|_| contents)
-        }).and_then(|contents| {
-        contents.trim().parse::<i32>()
-            .map_err(|err| err.to_string())
-    }).map(|n| 2 * n)
+        })
+        .and_then(|contents| {
+            contents
+                .trim()
+                .parse::<i32>()
+                .map_err(|err| err.to_string())
+        })
+        .map(|n| 2 * n)
 }
 
 fn find(src: &str, needle: char) -> Option<usize> {
