@@ -1,9 +1,14 @@
+extern crate rayon;
+
+use rayon::prelude::*;
 use std::cell::{Cell, RefCell};
 use std::collections::HashMap;
 use std::rc::Rc;
-use std::sync::mpsc::channel;
+use std::sync::mpsc;
+use std::sync::mpsc::{channel, sync_channel};
 use std::sync::{Arc, Mutex, RwLock};
 use std::thread;
+use std::time::Duration;
 
 #[derive(PartialEq, Eq, Debug)]
 struct Owner<'a> {
@@ -22,6 +27,101 @@ pub fn proc_thread() {
     arc_mutex();
     rw_lock();
     cell_refcell();
+    exec_thread1();
+    exec_thread2();
+    exec_thread3();
+    exec_thread4();
+    exec_thread5();
+    exec_thread6();
+    exec_thread7();
+}
+
+fn exec_thread7() {
+    let mut odd_arr = [1, 2, 5, 7, 9];
+    odd_arr.par_iter_mut().for_each(|odd| {
+        if *odd % 2 != 0 {
+            *odd *= 2;
+        }
+    });
+    println!("convert odd number to even {:?}", odd_arr);
+}
+
+fn exec_thread6() {
+    let arc_num = Arc::new(5);
+    let cloned = arc_num.clone();
+    let new_thread = thread::spawn(move || {
+        println!(
+            "share value between threads arc_num {} {:p}",
+            arc_num, &*arc_num
+        );
+    });
+    new_thread.join().unwrap();
+    println!(
+        "share value between threads cloned {} {:p}",
+        cloned, &*cloned
+    );
+}
+
+fn exec_thread5() {
+    static mut NUM: i32 = 2;
+    let new_thread = thread::spawn(move || unsafe {
+        println!("before added, {}", NUM);
+        NUM += 1;
+    });
+    new_thread.join().unwrap();
+    unsafe {
+        println!("main thread after added, {}", NUM);
+    }
+}
+
+fn exec_thread4() {
+    let (sender, receiver) = sync_channel(0);
+    let new_thread = thread::spawn(move || {
+        sender.send(1).unwrap();
+    });
+    println!("exec_thread4 receive {}", receiver.recv().unwrap());
+    new_thread.join().unwrap();
+}
+
+fn exec_thread3() {
+    let (sender, receiver) = channel();
+    for x in 0..2 {
+        let cp_sender = sender.clone();
+        thread::spawn(move || {
+            cp_sender.send(x).unwrap();
+            println!("exec_thread3 send {}", x);
+        });
+    }
+
+    for _ in 0..2 {
+        println!("exec_thread3 receive {}", receiver.recv().unwrap());
+    }
+    thread::sleep(Duration::from_millis(100));
+}
+
+fn exec_thread2() {
+    let (sender, receiver) = mpsc::channel();
+    thread::spawn(move || {
+        sender.send(1).unwrap();
+    });
+    let receive = receiver.recv().unwrap_or_default();
+    println!("received msg: {}", receive);
+}
+
+fn exec_thread1() {
+    let new_thread = thread::spawn(move || {
+        println!("I am a thread");
+    });
+    new_thread.join().unwrap();
+
+    let new_thread1 = thread::Builder::new()
+        .name("new_thread1".to_string())
+        .stack_size(4 * 1024 * 1024)
+        .spawn(move || {
+            println!("new thread1");
+        })
+        .expect("failed to spawn a thread");
+    new_thread1.join().unwrap();
 }
 
 fn cell_refcell() {

@@ -12,8 +12,10 @@ use crate::basic::generic::proc_generic;
 use crate::basic::lifetime::proc_lifetime;
 use crate::basic::macs::proc_macro;
 use crate::basic::operator::proc_operate;
+use crate::basic::reflect::proc_reflect;
 use crate::basic::thread::proc_thread;
 use crate::basic::traits::proc_trait;
+use crate::basic::un_safe::proc_unsafe;
 
 fn main() {
     // data type
@@ -49,10 +51,14 @@ fn main() {
     print_sth!(name);
     println!("-------------thread----------");
     proc_thread();
-
     println!("-------------build in traits----------");
     proc_build_in_traits();
+    println!("-------------reflect----------");
+    proc_reflect();
+    println!("-------------unsafe----------");
+    proc_unsafe();
     println!("-------------other----------");
+
     // function
     let plus_num = |x: i32| x + 2;
     println!("plus_num, {}", plus_num(5));
