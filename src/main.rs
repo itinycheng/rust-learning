@@ -1,4 +1,5 @@
 mod basic;
+mod collection;
 
 use crate::basic::build_in_traits::proc_build_in_traits;
 use crate::basic::closure::proc_closure;
@@ -16,6 +17,8 @@ use crate::basic::reflect::proc_reflect;
 use crate::basic::thread::proc_thread;
 use crate::basic::traits::proc_trait;
 use crate::basic::un_safe::proc_unsafe;
+use crate::basic::feature::proc_feature;
+use crate::collection::collection::{proc_stack, proc_queue, proc_binary_tree};
 
 fn main() {
     // data type
@@ -57,6 +60,12 @@ fn main() {
     proc_reflect();
     println!("-------------unsafe----------");
     proc_unsafe();
+    println!("-------------feature----------");
+    proc_feature();
+    println!("-------------collection----------");
+    proc_stack();
+    proc_queue();
+    proc_binary_tree();
     println!("-------------other----------");
 
     // function
@@ -83,8 +92,8 @@ fn factory(x: i32) -> Box<dyn Fn(i32) -> i32> {
 }
 
 fn apply<F>(f: F, y: i32) -> i32
-where
-    F: Fn(i32, i32) -> i32,
+    where
+        F: Fn(i32, i32) -> i32,
 {
     f(y, y)
 }
