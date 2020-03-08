@@ -2,7 +2,7 @@
 
 #[derive(Debug)]
 pub struct Stack<T> {
-    top: Option<Box<StackNode<T>>>
+    top: Option<Box<StackNode<T>>>,
 }
 
 #[derive(Debug)]
@@ -13,7 +13,10 @@ struct StackNode<T> {
 
 impl<T> StackNode<T> {
     fn new(val: T) -> StackNode<T> {
-        StackNode { value: val, next: None }
+        StackNode {
+            value: val,
+            next: None,
+        }
     }
 }
 
@@ -23,7 +26,10 @@ impl<T> Stack<T> {
     }
 
     pub fn push(&mut self, item: T) {
-        let node = StackNode { value: item, next: self.top.take() };
+        let node = StackNode {
+            value: item,
+            next: self.top.take(),
+        };
         self.top = Some(Box::new(node));
     }
 
@@ -33,7 +39,7 @@ impl<T> Stack<T> {
                 self.top = x.next;
                 Some(x.value)
             }
-            None => None
+            None => None,
         }
     }
 }

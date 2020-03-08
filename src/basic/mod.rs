@@ -1,19 +1,19 @@
-pub(crate) mod closure;
-pub(crate) mod collection;
-pub(crate) mod datatype;
-pub(crate) mod exception;
-pub(crate) mod expr;
-pub(crate) mod file;
-pub(crate) mod function;
-pub(crate) mod generic;
-pub(crate) mod lifetime;
-pub(crate) mod operator;
-pub(crate) mod traits;
+pub mod closure;
+pub mod collection;
+pub mod datatype;
+pub mod exception;
+pub mod expr;
+pub mod file;
+pub mod function;
+pub mod generic;
+pub mod lifetime;
+pub mod operator;
+pub mod traits;
 
 #[macro_use]
-pub(crate) mod macs;
-pub(crate) mod build_in_traits;
-pub(crate) mod reflect;
-pub(crate) mod thread;
-pub(crate) mod un_safe;
-pub(crate) mod feature;
+pub mod macs;
+pub mod build_in_traits;
+pub mod feature;
+pub mod reflect;
+pub mod thread;
+pub mod un_safe;

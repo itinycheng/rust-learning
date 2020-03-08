@@ -1,24 +1,24 @@
-mod basic;
-mod collection;
+#[macro_use]
+extern crate rust_learning;
 
-use crate::basic::build_in_traits::proc_build_in_traits;
-use crate::basic::closure::proc_closure;
-use crate::basic::collection::{proc_collection, proc_iterator};
-use crate::basic::datatype::proc_data;
-use crate::basic::exception::proc_exception;
-use crate::basic::expr::proc_expr;
-use crate::basic::file::proc_file;
-use crate::basic::function::proc_func;
-use crate::basic::generic::proc_generic;
-use crate::basic::lifetime::proc_lifetime;
-use crate::basic::macs::proc_macro;
-use crate::basic::operator::proc_operate;
-use crate::basic::reflect::proc_reflect;
-use crate::basic::thread::proc_thread;
-use crate::basic::traits::proc_trait;
-use crate::basic::un_safe::proc_unsafe;
-use crate::basic::feature::proc_feature;
-use crate::collection::collection::{proc_stack, proc_queue, proc_binary_tree};
+use rust_learning::basic::build_in_traits::proc_build_in_traits;
+use rust_learning::basic::closure::proc_closure;
+use rust_learning::basic::collection::{proc_collection, proc_iterator};
+use rust_learning::basic::datatype::proc_data;
+use rust_learning::basic::exception::proc_exception;
+use rust_learning::basic::expr::proc_expr;
+use rust_learning::basic::feature::proc_feature;
+use rust_learning::basic::file::proc_file;
+use rust_learning::basic::function::proc_func;
+use rust_learning::basic::generic::proc_generic;
+use rust_learning::basic::lifetime::proc_lifetime;
+use rust_learning::basic::macs::proc_macro;
+use rust_learning::basic::operator::proc_operate;
+use rust_learning::basic::reflect::proc_reflect;
+use rust_learning::basic::thread::proc_thread;
+use rust_learning::basic::traits::proc_trait;
+use rust_learning::basic::un_safe::proc_unsafe;
+use rust_learning::collection::collection::{proc_binary_tree, proc_queue, proc_stack};
 
 fn main() {
     // data type
@@ -92,8 +92,8 @@ fn factory(x: i32) -> Box<dyn Fn(i32) -> i32> {
 }
 
 fn apply<F>(f: F, y: i32) -> i32
-    where
-        F: Fn(i32, i32) -> i32,
+where
+    F: Fn(i32, i32) -> i32,
 {
     f(y, y)
 }

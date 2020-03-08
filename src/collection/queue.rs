@@ -1,8 +1,8 @@
 pub struct Queue<T> {
-    queue: Vec<T>
+    queue: Vec<T>,
 }
 
- impl<T> Queue<T> {
+impl<T> Queue<T> {
     pub fn new() -> Self {
         Queue { queue: Vec::new() }
     }
