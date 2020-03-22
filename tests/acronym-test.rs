@@ -1,4 +1,4 @@
-use rust_learning::exercism::acronym as acronym;
+use rust_learning::exercism::acronym;
 
 #[test]
 fn empty() {

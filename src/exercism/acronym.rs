@@ -5,14 +5,16 @@ pub fn abbreviate(phrase: &str) -> String {
 }
 
 fn solution1(phrase: &str) -> String {
-    phrase.split(|c: char| c.is_whitespace() || c == '-')
-        .flat_map(|word| word.chars()
-            .filter(|c| c.is_alphabetic())
-            .take(1)
-            .chain(word.chars()
-                .filter(|c| c.is_alphabetic())
-                .skip_while(|c| c.is_uppercase())
-                .filter(|c| c.is_uppercase())))
+    phrase
+        .split(|c: char| c.is_whitespace() || c == '-')
+        .flat_map(|word| {
+            word.chars().filter(|c| c.is_alphabetic()).take(1).chain(
+                word.chars()
+                    .filter(|c| c.is_alphabetic())
+                    .skip_while(|c| c.is_uppercase())
+                    .filter(|c| c.is_uppercase()),
+            )
+        })
         .collect::<String>()
         .to_uppercase()
 }
@@ -20,7 +22,8 @@ fn solution1(phrase: &str) -> String {
 // can't handle camelcase
 fn solution2(phrase: &str) -> String {
     let is_sp = |ch: char| ch.is_whitespace() || ch == '-';
-    phrase.chars()
+    phrase
+        .chars()
         .fold((true, &mut String::new()), |(flag, value), c| {
             let mut is_pushed = true;
             if flag {
@@ -32,7 +35,10 @@ fn solution2(phrase: &str) -> String {
             }
             let flag = if is_pushed { is_sp(c) } else { flag };
             (flag, value)
-        }).1.clone().to_uppercase()
+        })
+        .1
+        .clone()
+        .to_uppercase()
 }
 
 // TODO
@@ -42,6 +48,15 @@ fn solution3(phrase: &str) -> String {
 
 // TODO
 fn solution4(phrase: &str) -> String {
-    phrase.chars().collect::<Vec<char>>()
-        .windows(2).flatten().collect()
+    (String::from(" ") + phrase)
+        .chars()
+        .collect::<Vec<char>>()
+        .windows(2)
+        .filter(|pair| {
+            (!pair[0].is_alphabetic() && pair[1].is_alphabetic())
+                || (!pair[0].is_uppercase() && pair[1].is_uppercase())
+        })
+        .map(|pair| pair[1])
+        .collect::<String>()
+        .to_uppercase()
 }
