@@ -68,7 +68,7 @@ fn expr_loop() {
             println!("inner loop");
             break 'inner;
         }
-        break;
+        break 'outer;
     }
 }
 

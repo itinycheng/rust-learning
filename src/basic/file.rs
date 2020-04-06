@@ -1,4 +1,3 @@
-use std::error::Error;
 use std::fs::{File, OpenOptions};
 use std::io::{Read, Write};
 use std::path::Path;
@@ -17,12 +16,12 @@ fn read_file(path: &str) {
     let path = Path::new(path);
     let display = path.display();
     let mut file = match File::open(path) {
-        Err(why) => panic!("couldn't open {}: {}", display, Error::description(&why)),
+        Err(why) => panic!("couldn't open {}: {}", display, why.to_string()),
         Ok(file) => file,
     };
     let mut s = String::new();
     match file.read_to_string(&mut s) {
-        Err(why) => panic!("couldn't read {}: {}", display, Error::description(&why)),
+        Err(why) => panic!("couldn't read {}: {}", display, why.to_string()),
         Ok(_) => println!("{} content:\n {}", display, s),
     }
 }
@@ -31,7 +30,7 @@ fn write_to_file(path: &str) {
     let path = Path::new(path);
     let display = path.display();
     let mut file = match File::create(path) {
-        Err(why) => panic!("couldn't create {}: {}", display, Error::description(&why)),
+        Err(why) => panic!("couldn't create {}: {}", display, why.to_string()),
         Ok(file) => file,
     };
     match file.write_all(INPUT_TEXT.as_bytes()) {
@@ -39,7 +38,7 @@ fn write_to_file(path: &str) {
             "couldn't write {} to {}: {}",
             INPUT_TEXT,
             display,
-            Error::description(&why)
+            why.to_string()
         ),
         Ok(_) => println!("write to {} successfully", display),
     }

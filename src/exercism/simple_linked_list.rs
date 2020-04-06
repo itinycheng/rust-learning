@@ -18,10 +18,7 @@ impl<T> Node<T> {
 
 impl<T> SimpleLinkedList<T> {
     pub fn new() -> Self {
-        SimpleLinkedList {
-            head: None,
-            len: 0,
-        }
+        SimpleLinkedList { head: None, len: 0 }
     }
 
     pub fn len(&self) -> usize {
@@ -58,7 +55,7 @@ impl<T> SimpleLinkedList<T> {
 }
 
 impl<T> FromIterator<T> for SimpleLinkedList<T> {
-    fn from_iter<I: IntoIterator<Item=T>>(_iter: I) -> Self {
+    fn from_iter<I: IntoIterator<Item = T>>(_iter: I) -> Self {
         let mut linked_list = SimpleLinkedList::new();
         _iter.into_iter().for_each(|item| {
             linked_list.push(item);

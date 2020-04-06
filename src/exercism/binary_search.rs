@@ -2,9 +2,9 @@ use std::cmp::Ordering;
 
 // optimized
 pub fn find<A, K>(array: A, key: K) -> Option<usize>
-    where
-        K: Ord,
-        A: AsRef<[K]>,
+where
+    K: Ord,
+    A: AsRef<[K]>,
 {
     let array = array.as_ref();
     if array.len() == 0 {
@@ -20,9 +20,9 @@ pub fn find<A, K>(array: A, key: K) -> Option<usize>
 
 // impl by myself
 pub fn find1<A, K>(array: A, key: K) -> Option<usize>
-    where
-        K: Ord,
-        A: AsRef<[K]>,
+where
+    K: Ord,
+    A: AsRef<[K]>,
 {
     let array = array.as_ref();
     match (array.len(), array.len() / 2) {
