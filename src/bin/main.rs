@@ -5,6 +5,8 @@ use rust_learning::basic::build_in_traits::proc_build_in_traits;
 use rust_learning::basic::closure::proc_closure;
 use rust_learning::basic::collection::{proc_collection, proc_iterator};
 use rust_learning::basic::datatype::proc_data;
+use rust_learning::basic::dyn_impl_trait::proc_dyn_impl_trait;
+use rust_learning::basic::errors::proc_errors;
 use rust_learning::basic::exception::proc_exception;
 use rust_learning::basic::expr::proc_expr;
 use rust_learning::basic::feature::proc_feature;
@@ -66,8 +68,12 @@ fn main() {
     proc_stack();
     proc_queue();
     proc_binary_tree();
-    println!("-------------other----------");
+    println!("-------------dyn/impl trait----------");
+    proc_dyn_impl_trait();
+    println!("-------------errors----------");
+    proc_errors();
 
+    println!("-------------other----------");
     // function
     let plus_num = |x: i32| x + 2;
     println!("plus_num, {}", plus_num(5));
