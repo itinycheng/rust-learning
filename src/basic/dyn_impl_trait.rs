@@ -19,7 +19,7 @@ pub fn proc_dyn_impl_trait() {
     println!("operate_2(3, 2) eq {}", operate_2(number, 2));
 
     // specify type of return value to `Number`
-    // let number = new_mult_object::<Number>(3);
+    let number = new_multi_object::<Number>(3);
     // coding diff between operate_1 and operate_2;
     println!(
         "operate_2::<Number>(3, 2) eq {}",
@@ -41,6 +41,11 @@ struct Digit(i32);
 
 trait Multiply {
     fn multi(&self, num: i32) -> i32;
+
+    /// must Sized if need dyn trait
+    fn new(num: i32) -> Self
+    where
+        Self: Sized;
 }
 
 trait Div {
@@ -58,6 +63,10 @@ impl Mod for Number {}
 impl Multiply for Number {
     fn multi(&self, num: i32) -> i32 {
         self.0 * num
+    }
+
+    fn new(num: i32) -> Self {
+        Number(num)
     }
 }
 
@@ -77,6 +86,10 @@ impl Div for Number {
 impl Multiply for Digit {
     fn multi(&self, num: i32) -> i32 {
         self.0 * num
+    }
+
+    fn new(num: i32) -> Self {
+        Digit(num)
     }
 }
 
@@ -105,6 +118,9 @@ fn operate_2<T: Multiply>(opr: T, num: i32) -> i32 {
 }
 
 // not work
-// fn new_mult_object<T>(num: i32) -> T where T: Multiply {
-//     Number(num) as T
-// }
+fn new_multi_object<T>(num: i32) -> T
+where
+    T: Multiply,
+{
+    T::new(num)
+}
