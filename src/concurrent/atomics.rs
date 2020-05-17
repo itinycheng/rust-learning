@@ -1,7 +1,6 @@
 use std::sync::atomic::Ordering::SeqCst;
 use std::sync::atomic::{AtomicBool, AtomicI32, AtomicPtr};
 use std::thread;
-use std::ptr::{null, null_mut};
 
 static BOOL_X: AtomicBool = AtomicBool::new(false);
 static BOOL_Y: AtomicBool = AtomicBool::new(false);
