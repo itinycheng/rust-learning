@@ -42,6 +42,8 @@ impl Into<String> for Toy {
 pub fn proc_build_in_traits() {
     let car = Toy::from("car");
     println!("toy from str: {:?}", car);
+    let car2: Toy = "car2".into();
+    println!("string into Toy: {:?}", car2);
     let name: String = car.into();
     println!("toy into name: {}", name);
     let mut airplane = Toy::new("airplane");

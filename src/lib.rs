@@ -5,3 +5,10 @@ pub mod exercism;
 
 #[macro_use]
 extern crate lazy_static;
+
+#[macro_use]
+extern crate my_proc_macro;
+
+pub (crate) trait HelloMacro {
+    fn hello(&self) -> ();
+}

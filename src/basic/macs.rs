@@ -1,3 +1,5 @@
+use crate::HelloMacro;
+
 #[macro_export]
 macro_rules! print_sth {
     ($x:ident) => {
@@ -15,14 +17,19 @@ macro_rules! vector {
     };
 }
 
-// macro展开过程
+// find_min!(5, 2, 3) 展开过程
+// std::cmp::min(5u32, find_min!(2u32 * 3, 4u32))
 // std::cmp::min(5u32, std::cmp::min(2u32 * 3, find_min!(4u32)))
+// std::cmp::min(5u32, std::cmp::min(2u32 * 3, 4u32))
 macro_rules! find_min {
     ($x: expr) => {$x};
     ($x: expr,$($y:expr),+) => {
         std::cmp::min($x, find_min!($($y),+))
     }
 }
+
+#[derive(hello_macro)]
+struct Test;
 
 pub fn proc_macro() {
     let a = "fd";
@@ -31,4 +38,7 @@ pub fn proc_macro() {
     println!("vec {:?}", vec);
     let min = find_min!(5, 2, 3);
     println!("min {}", min);
+
+    let test = Test;
+    test.hello()
 }
