@@ -29,7 +29,7 @@ macro_rules! find_min {
 }
 
 #[derive(hello_macro)]
-struct Test;
+struct Test<T>(T);
 
 pub fn proc_macro() {
     let a = "fd";
@@ -39,6 +39,6 @@ pub fn proc_macro() {
     let min = find_min!(5, 2, 3);
     println!("min {}", min);
 
-    let test = Test;
+    let test = Test("TEST");
     test.hello()
 }

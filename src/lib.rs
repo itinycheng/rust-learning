@@ -9,6 +9,6 @@ extern crate lazy_static;
 #[macro_use]
 extern crate my_proc_macro;
 
-pub (crate) trait HelloMacro {
+pub trait HelloMacro {
     fn hello(&self) -> ();
 }

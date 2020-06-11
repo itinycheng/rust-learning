@@ -32,4 +32,7 @@ unicode-segmentation = "1.6.0"
 lazy_static = "1.4.0"
 rand = "0.7.3"
 futures = "0.3.4"
-my-proc-macro = {path = "./my-proc-macro"}
+my-proc-macro = {path = "./my-proc-macro", version = "0.1.0"}
+
+[features]
+
