@@ -20,7 +20,7 @@ use rust_learning::basic::reflect::proc_reflect;
 use rust_learning::basic::thread::proc_thread;
 use rust_learning::basic::traits::proc_trait;
 use rust_learning::basic::un_safe::proc_unsafe;
-use rust_learning::collection::collection::{proc_binary_tree, proc_queue, proc_stack};
+use rust_learning::collection::collection_test::{proc_binary_tree, proc_queue, proc_stack};
 
 fn main() {
     // data type

@@ -46,13 +46,12 @@ impl Robot {
             let read_lock = NAMES_LOCK.read().unwrap();
             exist = read_lock.contains(&name);
         }
-        match exist {
-            true => Self::new_name(),
-            _ => {
-                let mut write_lock = NAMES_LOCK.write().unwrap();
-                write_lock.insert(name.to_owned());
-                name
-            }
+        if exist {
+            Self::new_name()
+        } else {
+            let mut write_lock = NAMES_LOCK.write().unwrap();
+            write_lock.insert(name.to_owned());
+            name
         }
     }
 }

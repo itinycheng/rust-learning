@@ -12,13 +12,11 @@ pub fn proc_reflect() {
 fn load_config<T: Any + Debug>(value: &T) -> Vec<String> {
     let mut cfgs: Vec<String> = vec![];
     let value = value as &dyn Any;
-    match value.downcast_ref::<String>() {
-        Some(cfg) => cfgs.push(cfg.clone()),
-        None => (),
+    if let Some(cfg) = value.downcast_ref::<String>() {
+        cfgs.push(cfg.clone())
     }
-    match value.downcast_ref::<Vec<String>>() {
-        Some(vec) => cfgs.extend_from_slice(vec),
-        None => {}
+    if let Some(vec) = value.downcast_ref::<Vec<String>>() {
+        cfgs.extend_from_slice(vec)
     }
     cfgs
 }

@@ -44,7 +44,7 @@ impl Add for Person {
     type Output = Self;
 
     fn add(self, rhs: Self) -> Self::Output {
-        let mut new_name = String::from(self.name);
+        let mut new_name = self.name.to_owned();
         new_name.push_str(&rhs.name);
         Person {
             name: new_name,

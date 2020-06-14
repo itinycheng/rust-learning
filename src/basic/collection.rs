@@ -7,8 +7,7 @@ pub fn proc_collection() {
 
 pub fn proc_iterator() {
     // 惰性计算
-    let seq = (1..).into_iter();
-    let collected = seq
+    let collected = (1..)
         .take_while(|x| *x < 10)
         .map(|x| x * x)
         .filter(|x| x % 2 == 0)
@@ -16,7 +15,7 @@ pub fn proc_iterator() {
         .iter()
         .fold(0, |x, y| x + *y);
     println!("iterator collected {:?}", collected);
-    let sum = (1..=4).fold(0, |x, y| x + y);
+    let sum = (1..=4).sum::<i32>();
     println!("iterator sum = {}", sum);
 
     let names = vec!["tiny", "bill", "free"];
@@ -56,7 +55,7 @@ fn hash_map() {
 
 fn vec_type() {
     let mut v1: Vec<f64> = Vec::new();
-    v1.push(3 as f64);
+    v1.push(3_f64);
     println!("v1 {:?}", v1);
     let v2: Vec<i32> = vec![];
     println!("v2 {:?}", v2);

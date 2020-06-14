@@ -5,12 +5,12 @@ use std::path::Path;
 pub fn proc_exception() {
     let file_name = "file.rs";
     match find(file_name, '.') {
-        Some(x) => println!("find {} at position {}", ".", x),
+        Some(x) => println!("find . at position {}", x),
         None => println!("no found"),
     }
 
     let result = find(file_name, '.')
-        .ok_or("not found".to_owned())
+        .ok_or_else(|| "not found".to_owned())
         // .map_err() handle err
         .and_then(|x| Ok((x * 10 + x).to_string()))
         .unwrap();
@@ -55,5 +55,5 @@ fn find(src: &str, needle: char) -> Option<usize> {
     src.char_indices()
         .filter(|&(_, ch)| ch == needle)
         .map(|(offset, _)| offset)
-        .nth(0)
+        .next()
 }

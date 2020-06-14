@@ -10,5 +10,5 @@ extern crate lazy_static;
 extern crate my_proc_macro;
 
 pub trait HelloMacro {
-    fn hello(&self) -> ();
+    fn hello(&self);
 }

@@ -16,13 +16,12 @@ pub fn proc_atomics() {
         *NUM_PRT.get_mut() = 5 as *mut i32;
         println!("#?: {:#?}", NUM_PRT);
         println!("AtomicPtr deref: {}", *NUM_PRT.get_mut() as i32);
-
     }
 
-    let t_x = thread::spawn(move || write_x());
-    let t_y = thread::spawn(move || write_y());
-    let t_x_y = thread::spawn(move || read_x_then_y());
-    let t_y_x = thread::spawn(move || read_y_then_x());
+    let t_x = thread::spawn(write_x);
+    let t_y = thread::spawn(write_y);
+    let t_x_y = thread::spawn(read_x_then_y);
+    let t_y_x = thread::spawn(read_y_then_x);
 
     let _ = t_x.join();
     let _ = t_y.join();

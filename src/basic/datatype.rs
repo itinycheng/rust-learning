@@ -54,7 +54,7 @@ pub fn proc_data() {
 
     let mut vec2 = vec![3; 2];
     for x in &mut vec2 {
-        *x = *x + 1;
+        *x += 1;
         println!("vec2 item= {}", x);
     }
     // 8
@@ -143,7 +143,7 @@ impl Circle {
     }
 }
 
-fn match_message(msg: Message) -> () {
+fn match_message(msg: Message) {
     match msg {
         Message::Move { x: m_x, y: m_y } => println!("message move: x={}, y={}", m_x, m_y),
         Message::Write(m_msg) => println!("message write={}", m_msg),

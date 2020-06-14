@@ -7,7 +7,7 @@ where
     A: AsRef<[K]>,
 {
     let array = array.as_ref();
-    if array.len() == 0 {
+    if array.is_empty() {
         return None;
     }
     let idx = array.len() / 2;

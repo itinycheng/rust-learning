@@ -46,7 +46,7 @@ fn func_3() {
 
 fn func_2() {
     let add = |x: i32, y: i32| -> i32 { x + y };
-    println!("{} + {} = {}", 1, 2, add(1, 2));
+    println!("1 + 2 = {}", add(1, 2));
 }
 
 fn func_1() {

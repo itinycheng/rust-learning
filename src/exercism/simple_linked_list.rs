@@ -25,6 +25,10 @@ impl<T> SimpleLinkedList<T> {
         self.len
     }
 
+    pub fn is_empty(&self) -> bool{
+        self.len == 0
+    }
+
     pub fn push(&mut self, _element: T) {
         let next = self.head.take();
         self.head = Some(Box::new(Node::new(_element, next)));

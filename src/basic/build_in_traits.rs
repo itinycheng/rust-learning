@@ -91,5 +91,5 @@ fn rm_space(input: &str) -> Cow<str> {
         }
         return Cow::Owned(buf);
     }
-    return Cow::Borrowed(input);
+    Cow::Borrowed(input)
 }

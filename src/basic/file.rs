@@ -2,9 +2,9 @@ use std::fs::{File, OpenOptions};
 use std::io::{Read, Write};
 use std::path::Path;
 
-const INPUT_TEXT: &'static str = "input text";
+const INPUT_TEXT: &str = "input text";
 
-const FILE_PATH: &'static str = "/Users/tiny/Applications/IdeaProjects/rust-learning/.gitignore";
+const FILE_PATH: &str = "/Users/tiny/Applications/IdeaProjects/rust-learning/.gitignore";
 
 pub fn proc_file() {
     read_file(FILE_PATH);

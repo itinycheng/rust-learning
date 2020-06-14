@@ -16,15 +16,17 @@ pub async fn hello_join<T: Into<String>>(name: T) -> String {
 }
 
 async fn say_hello() -> String {
-    match random::<u8>() % 2 == 0 {
-        true => "Hello ".to_string(),
-        _ => "Hi ".to_string(),
+    if random::<u8>() % 2 == 0 {
+        "Hello ".to_string()
+    } else {
+        "Hi ".to_string()
     }
 }
 
 async fn greeting() -> String {
-    match random::<u8>() % 2 == 0 {
-        true => ", what a nice day!".to_string(),
-        _ => ", nice day isn't it!".to_string(),
+    if random::<u8>() % 2 == 0 {
+        ", what a nice day!".to_string()
+    } else {
+        ", nice day isn't it!".to_string()
     }
 }

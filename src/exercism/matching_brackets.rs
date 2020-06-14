@@ -45,7 +45,7 @@ fn solution1(string: &str) -> bool {
         .map(|c| *mapping.get(&c).unwrap_or(&0))
         .filter(|&value| value != 0)
         .fold(&mut vec![], |vec, num| {
-            if num < 0 && vec.len() > 0 && *vec.get(vec.len() - 1).unwrap_or(&0) + num == 0 {
+            if num < 0 && !vec.is_empty() && *vec.get(vec.len() - 1).unwrap_or(&0) + num == 0 {
                 vec.remove(vec.len() - 1);
             } else {
                 vec.push(num);
