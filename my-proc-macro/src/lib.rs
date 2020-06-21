@@ -1,28 +1,16 @@
+mod internal;
+
 extern crate proc_macro;
+extern crate quote;
 extern crate syn;
 
-#[macro_use]
-extern crate quote;
-
+use crate::internal::print_attrs;
+use crate::internal::custom_debug;
 use proc_macro::TokenStream;
 use proc_macro2::{Ident, Span};
-use syn::parse_macro_input;
-use syn::{AttributeArgs, ItemFn, MetaNameValue, NestedMeta};
-
-#[proc_macro_derive(hello_macro)]
-pub fn hello_macro(ts: TokenStream) -> TokenStream {
-    let ast: syn::DeriveInput = syn::parse(ts).unwrap();
-    let name = ast.ident;
-    let (im, ty, wh) = ast.generics.split_for_impl();
-    let gen = quote! {
-        impl #im HelloMacro for #name #ty #wh {
-            fn hello(&self) -> () {
-                println!("Hello, {}!", stringify!(#name))
-            }
-        }
-    };
-    gen.into()
-}
+use quote::quote;
+use syn::{parse_macro_input, DeriveInput};
+use syn::ItemFn;
 
 #[proc_macro]
 pub fn create_fn(ident: TokenStream) -> TokenStream {
@@ -35,6 +23,30 @@ pub fn create_fn(ident: TokenStream) -> TokenStream {
     };
     gen.into()
 }
+
+#[proc_macro_derive(hello_macro)]
+pub fn hello_macro(ts: TokenStream) -> TokenStream {
+    let ast: DeriveInput = syn::parse(ts).unwrap();
+    let name = ast.ident;
+    let (im, ty, wh) = ast.generics.split_for_impl();
+    let gen = quote! {
+        impl #im HelloMacro for #name #ty #wh {
+            fn hello(&self) {
+                println!("Hello, {}!", stringify!(#name))
+            }
+        }
+    };
+    gen.into()
+}
+
+#[proc_macro_derive(CustomDebug, attributes(debug))]
+pub fn custom_debug(input: TokenStream) -> TokenStream {
+    let ast = parse_macro_input!(input as DeriveInput);
+    custom_debug::parse(ast)
+        .unwrap_or_else(to_compile_error)
+        .into()
+}
+
 
 #[proc_macro_attribute]
 pub fn time_cost(_: TokenStream, body: TokenStream) -> TokenStream {
@@ -59,54 +71,14 @@ pub fn time_cost(_: TokenStream, body: TokenStream) -> TokenStream {
 }
 
 #[proc_macro_attribute]
-pub fn print_attr(attrs: TokenStream, body: TokenStream) -> TokenStream {
+pub fn print_attr(head: TokenStream, body: TokenStream) -> TokenStream {
+    let attr = parse_macro_input!(head as syn::AttributeArgs);
     let func = parse_macro_input!(body as ItemFn);
-    let fn_vis = &func.vis;
-    let fn_body = &func.block;
-    let fn_sig = &func.sig;
-    let fn_name = &fn_sig.ident;
-    let fn_generics = &fn_sig.generics;
-    let fn_inputs = &fn_sig.inputs;
-    let fn_output = &fn_sig.output;
-
-    let attrs = parse_macro_input!(attrs as syn::AttributeArgs);
-    let attrs_parsed = parse_attrs(attrs)
-        .unwrap()
-        .into_iter()
-        .map(|tuple| {
-            format!(
-                "{} = {}",
-                tuple.0.segments[0].ident.to_string(),
-                tuple.1.value()
-            )
-        })
-        .collect::<Vec<String>>();
-    let gen = quote! {
-        #fn_vis fn #fn_name #fn_generics (#fn_inputs) #fn_output{
-            #(println!("{:?} ", #attrs_parsed);)*
-            #fn_body
-        }
-    };
-    gen.into()
+    print_attrs::parse(attr, func)
+        .unwrap_or_else(to_compile_error)
+        .into()
 }
 
-fn parse_attrs(attrs: AttributeArgs) -> syn::Result<Vec<(syn::Path, syn::LitStr)>> {
-    if attrs.is_empty() {
-        Err(syn::Error::new(Span::call_site(), "empty"))
-    } else {
-        let mut vec = vec![];
-        for attr in attrs {
-            match attr {
-                NestedMeta::Meta(syn::Meta::NameValue(MetaNameValue {
-                    path,
-                    lit: syn::Lit::Str(str),
-                    ..
-                })) => {
-                    vec.push((path, str));
-                }
-                _ => panic!("Illegal attrs found in #[parse_attrs(..)]"),
-            }
-        }
-        Ok(vec)
-    }
+fn to_compile_error(error: syn::Error) -> proc_macro2::TokenStream {
+    error.to_compile_error()
 }
