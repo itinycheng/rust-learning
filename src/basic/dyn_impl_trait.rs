@@ -11,7 +11,7 @@ pub fn proc_dyn_impl_trait() {
     let div_two = div(2);
     println!("4 div 2 eq {}", div_two.div(4));
 
-    let trait_object = Div::trait_object(4, 2);
+    let trait_object = <dyn Div>::trait_object(4, 2);
     println!("trait object {}", trait_object);
 
     let number = Number(3);

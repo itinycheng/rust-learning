@@ -90,7 +90,7 @@ impl<T> Into<Vec<T>> for SimpleLinkedList<T> {
                 }
                 _ => vec![],
             }
-        };
+        }
         to_vec(self.head)
     }
 }

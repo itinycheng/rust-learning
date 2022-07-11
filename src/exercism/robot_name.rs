@@ -1,3 +1,4 @@
+use lazy_static::lazy_static;
 use rand::Rng;
 use std::collections::HashSet;
 use std::sync::RwLock;
@@ -35,9 +36,9 @@ impl Robot {
 
     fn new_name() -> String {
         let mut rng = rand::thread_rng();
-        let number: u16 = rng.gen_range(100, 1000);
+        let number: u16 = rng.gen_range(100..=1000);
         let name: String = (0..)
-            .map(|_| rng.gen_range(b'A', b'Z' + 1) as char)
+            .map(|_| rng.gen_range(b'A'..=b'Z' + 1) as char)
             .take(2)
             .collect::<String>();
         let name = format!("{}{}", name, number);

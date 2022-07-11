@@ -4,13 +4,13 @@ extern crate proc_macro;
 extern crate quote;
 extern crate syn;
 
-use crate::internal::print_attrs;
 use crate::internal::custom_debug;
+use crate::internal::print_attrs;
 use proc_macro::TokenStream;
 use proc_macro2::{Ident, Span};
 use quote::quote;
-use syn::{parse_macro_input, DeriveInput};
 use syn::ItemFn;
+use syn::{parse_macro_input, DeriveInput};
 
 #[proc_macro]
 pub fn create_fn(ident: TokenStream) -> TokenStream {
@@ -46,7 +46,6 @@ pub fn custom_debug(input: TokenStream) -> TokenStream {
         .unwrap_or_else(to_compile_error)
         .into()
 }
-
 
 #[proc_macro_attribute]
 pub fn time_cost(_: TokenStream, body: TokenStream) -> TokenStream {

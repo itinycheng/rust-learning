@@ -2,7 +2,7 @@
 name = "rust-learning"
 version = "0.1.0"
 authors = ["chenglong.wang <tiny.wcl@gmail.com>"]
-edition = "2018"
+edition = "2021"
 
 [lib]
 name = "rust_learning"
@@ -30,7 +30,7 @@ members=[
 rayon = "1.3.0"
 unicode-segmentation = "1.6.0"
 lazy_static = "1.4.0"
-rand = "0.7.3"
+rand = "0.8.4"
 futures = "0.3.4"
 my-proc-macro = {path = "./my-proc-macro", version = "0.1.0"}
 

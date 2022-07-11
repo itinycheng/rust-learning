@@ -12,13 +12,7 @@ pub(crate) fn parse(attrs: AttributeArgs, func: ItemFn) -> syn::Result<proc_macr
     let fn_output = &fn_sig.output;
     let attrs_parsed = parse_attrs(attrs)?
         .into_iter()
-        .map(|tuple| {
-            format!(
-                "{} = {}",
-                tuple.0.segments[0].ident.to_string(),
-                tuple.1.value()
-            )
-        })
+        .map(|tuple| format!("{} = {}", tuple.0.segments[0].ident, tuple.1.value()))
         .collect::<Vec<String>>();
     let gen = quote! {
         #fn_vis fn #fn_name #fn_generics (#fn_inputs) #fn_output{

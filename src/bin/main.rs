@@ -1,6 +1,3 @@
-#[macro_use]
-extern crate rust_learning;
-
 use rust_learning::basic::build_in_traits::proc_build_in_traits;
 use rust_learning::basic::closure::proc_closure;
 use rust_learning::basic::collection::{proc_collection, proc_iterator};
@@ -21,6 +18,7 @@ use rust_learning::basic::thread::proc_thread;
 use rust_learning::basic::traits::proc_trait;
 use rust_learning::basic::un_safe::proc_unsafe;
 use rust_learning::collection::collection_test::{proc_binary_tree, proc_queue, proc_stack};
+use rust_learning::print_sth;
 
 fn main() {
     // data type

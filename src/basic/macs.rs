@@ -1,4 +1,5 @@
 use crate::HelloMacro;
+use my_proc_macro::hello_macro;
 
 #[macro_export]
 macro_rules! print_sth {
