@@ -1,9 +1,5 @@
 mod internal;
 
-extern crate proc_macro;
-extern crate quote;
-extern crate syn;
-
 use crate::internal::custom_debug;
 use crate::internal::print_attrs;
 use proc_macro::TokenStream;
