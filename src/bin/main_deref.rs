@@ -49,4 +49,4 @@ fn main() {
     };
     let done = do_action(&cooker);
     println!("{:?}", done)
-} 
+}
