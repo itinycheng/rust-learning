@@ -13,35 +13,22 @@ pub trait Encode {
     }
 }
 
-impl Encode for u8 {
-    fn size_hint(&self) -> usize {
-        size_of::<u8>()
-    }
+macro_rules! numeric_encode_impl {
+    ($($type:ty)*) => {
+        $(
+            impl Encode for $type {
+                fn size_hint(&self) -> usize {
+                    size_of::<Self>()
+                }
 
-    fn encode_to(&self, output: &mut Vec<u8>) {
-        output.extend(self.to_be_bytes())
-    }
+                fn encode_to(&self, output: &mut Vec<u8>) {
+                    output.extend(self.to_be_bytes())
+                }
+            }
+        )*
+    };
 }
-
-impl Encode for i32 {
-    fn size_hint(&self) -> usize {
-        size_of::<i32>()
-    }
-
-    fn encode_to(&self, output: &mut Vec<u8>) {
-        output.extend(self.to_be_bytes())
-    }
-}
-
-impl Encode for u32 {
-    fn size_hint(&self) -> usize {
-        size_of::<u32>()
-    }
-
-    fn encode_to(&self, output: &mut Vec<u8>) {
-        output.extend(self.to_be_bytes())
-    }
-}
+numeric_encode_impl!(u8 u16 u32 u64 u128 i8 i16 i32 i64 i128 f32 f64);
 
 impl Encode for &str {
     fn size_hint(&self) -> usize {

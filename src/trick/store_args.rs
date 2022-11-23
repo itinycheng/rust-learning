@@ -1,9 +1,6 @@
 use core::u8;
 
-use super::{
-    decode::{Decode, Input},
-    encode::Encode,
-};
+use super::encode::Encode;
 
 #[derive(Debug)]
 pub struct StoreArgs<Args> {
@@ -135,38 +132,20 @@ where
     }
 }
 
-// decode
-
-macro_rules! tuple_decode_impl {
-    ($( $ident:ident, )+) => {
-        impl<$($ident: Decode,)+> Decode for ($($ident, )+) {
-            fn decode<I: Input>(input: &mut I) -> Result<Self, anyhow::Error> {
-                Ok((
-                    $($ident::decode(input)?,)+
-                ))
-            }
-        }
-    }
-}
-
-tuple_decode_impl!(T1,);
-tuple_decode_impl!(T1, T2,);
-tuple_decode_impl!(T1, T2, T3,);
-
 #[cfg(test)]
 mod tests {
-    use crate::trick::{decode::Decode, encode::Encode};
     use super::StoreArgs;
+    use crate::trick::{decode::Decode, encode::Encode};
 
     #[test]
     fn test_works() {
         let store_args = StoreArgs::new()
-        .push_arg(1)
-        .push_arg(2)
-        .push_arg("aa");
-        
+            .push_arg(1_u8)
+            .push_arg(2_i128)
+            .push_arg("aa");
+
         let encode = store_args.encode();
-        let args = <(i32, i32, String) as Decode>::decode(&mut encode.as_slice()).unwrap();
+        let args = <(u8, i128, String) as Decode>::decode(&mut encode.as_slice()).unwrap();
         assert_eq!(args, (1, 2, "aa".to_string()))
     }
 
@@ -174,7 +153,7 @@ mod tests {
     fn test_vec() {
         let mut vec = Vec::with_capacity(20);
         vec.push(0u8);
-       
+
         let slice = vec.as_mut_slice();
         assert_eq!(1, slice.len());
     }

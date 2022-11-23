@@ -1,8 +1,10 @@
+use core::mem::size_of;
+
 pub use anyhow::Error as AnyError;
 use anyhow::{anyhow, Ok};
 
 pub trait Input {
-    fn read(&mut self, into: &mut [u8]) -> Result<(), AnyError>;
+    fn read<const N: usize>(&mut self, into: &mut [u8; N]) -> Result<(), AnyError>;
 
     fn read_byte(&mut self) -> Result<u8, AnyError> {
         let mut into = [0_u8];
@@ -12,7 +14,7 @@ pub trait Input {
 }
 
 impl Input for &[u8] {
-    fn read(&mut self, into: &mut [u8]) -> Result<(), AnyError> {
+    fn read<const N: usize>(&mut self, into: &mut [u8; N]) -> Result<(), AnyError> {
         if self.len() < into.len() {
             return Err(anyhow!("Not have enough data for into buf"));
         }
@@ -26,28 +28,6 @@ impl Input for &[u8] {
 
 pub trait Decode: Sized {
     fn decode<I: Input>(input: &mut I) -> Result<Self, AnyError>;
-}
-
-impl Decode for u8 {
-    fn decode<I: Input>(input: &mut I) -> Result<Self, AnyError> {
-        Ok(input.read_byte()?)
-    }
-}
-
-impl Decode for i32 {
-    fn decode<I: Input>(input: &mut I) -> Result<Self, AnyError> {
-        let mut buf = [0; 4];
-        input.read(buf.as_mut_slice())?;
-        Ok(Self::from_be_bytes(buf))
-    }
-}
-
-impl Decode for u32 {
-    fn decode<I: Input>(input: &mut I) -> Result<Self, AnyError> {
-        let mut buf = [0; 4];
-        input.read(buf.as_mut_slice())?;
-        Ok(Self::from_be_bytes(buf))
-    }
 }
 
 impl<T: Decode> Decode for Vec<T> {
@@ -67,3 +47,37 @@ impl Decode for String {
         Ok(Self::from_utf8(vec)?)
     }
 }
+
+// decode numeric.
+macro_rules! numeric_decode_impl {
+    ($($type:ty)*) => ($(
+        impl Decode for $type {
+            fn decode<I: Input>(input: &mut I) -> Result<Self, AnyError> {
+                let mut buf = [0; size_of::<Self>()];
+                input.read(&mut buf)?;
+                Ok(Self::from_be_bytes(buf))
+            }
+        }
+    )*)
+}
+numeric_decode_impl!(u8 u16 u32 u64 u128 i8 i16 i32 i64 i128 f32 f64);
+
+// decode tuple.
+macro_rules! tuple_decode_impl {
+    ($( $ident:ident, )+) => {
+        impl<$($ident: Decode,)+> Decode for ($($ident, )+) {
+            fn decode<I: Input>(input: &mut I) -> Result<Self, anyhow::Error> {
+                Ok((
+                    $($ident::decode(input)?,)+
+                ))
+            }
+        }
+    }
+}
+
+tuple_decode_impl!(T1,);
+tuple_decode_impl!(T1, T2,);
+tuple_decode_impl!(T1, T2, T3,);
+tuple_decode_impl!(T1, T2, T3, T4,);
+tuple_decode_impl!(T1, T2, T3, T4, T5,);
+tuple_decode_impl!(T1, T2, T3, T4, T5, T6,);
