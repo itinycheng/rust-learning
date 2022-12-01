@@ -8,8 +8,6 @@ struct Person {
 
 #[derive(Debug)]
 struct Square<T> {
-    x: T,
-    y: T,
     r: T,
 }
 
@@ -71,10 +69,6 @@ pub fn proc_operate() {
     };
     let p3 = p1 + p2;
     println!("person added name: {}, age: {}", p3.name, p3.age);
-    let square = Square {
-        x: 0_f32,
-        y: 0f32,
-        r: 3.2f32,
-    };
+    let square = Square { r: 3.2f32 };
     println!("area of {:?} is {}", square, square.area());
 }

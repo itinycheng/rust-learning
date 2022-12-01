@@ -15,6 +15,7 @@ struct Owner<'a> {
     name: &'a str,
 }
 
+#[allow(dead_code)]
 #[derive(Debug)]
 struct Gadget<'a> {
     id: i32,

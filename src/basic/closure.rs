@@ -37,7 +37,8 @@ fn func_4() {
 fn func_3() {
     let mut num = 2;
     {
-        let mut add_num = move |x: i32| num += x;
+        // move will cause number copy
+        let mut add_num = |x: i32| num += x;
         add_num(2);
         println!("func_3 inner {}", num);
     }
