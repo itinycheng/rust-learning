@@ -78,7 +78,7 @@ fn main() {
 
     let mut origin_num = 5;
     {
-        let mut plus_num_n = |i: i32| origin_num += i;
+        let mut plus_num_n = move |i: i32| origin_num += i;
         plus_num_n(3);
         println!("inner plus_num_n, {}", origin_num);
     }
