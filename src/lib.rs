@@ -1,3 +1,5 @@
+#![allow(dead_code)]
+
 pub mod basic;
 pub mod collection;
 pub mod concurrent;

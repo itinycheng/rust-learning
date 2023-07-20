@@ -44,7 +44,9 @@ fn say_hi(name: String) {
     println!("hi {}", name);
 }
 
+// only the first macro works 
 #[print_attr(uri = "path", format = "default")]
+#[time_cost]
 fn say_no(name: String) {
     println!("no {}", name);
 }
