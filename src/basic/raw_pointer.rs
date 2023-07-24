@@ -35,7 +35,7 @@ pub fn split_mut_slice(vec: &mut [String]) -> (&mut [String], &mut [String]) {
 #[cfg(test)]
 mod tests {
     use core::time::Duration;
-    use std::{sync::Arc, thread, mem::size_of};
+    use std::{mem::size_of, sync::Arc, thread};
 
     use super::{incr_boxed_num, incr_twice, split_mut_slice};
 
@@ -43,15 +43,24 @@ mod tests {
     fn test_deref() {
         let mut vec = Vec::new();
         vec.push(1);
-        
-        let b = & *vec;
+
+        let b = &*vec;
         println!("{:?}, {:?}", &vec, b);
     }
 
     #[test]
     fn test_raw_pointer_size() {
-        println!("slice: {}, {}, {}", size_of::<&mut [String]>(), size_of::<*mut [String]>(), size_of::<*mut String>());
-        println!("vec: {}, {}", size_of::<&Vec<i32>>(), size_of::<*const Vec<i32>>());
+        println!(
+            "slice: {}, {}, {}",
+            size_of::<&mut [String]>(),
+            size_of::<*mut [String]>(),
+            size_of::<*mut String>()
+        );
+        println!(
+            "vec: {}, {}",
+            size_of::<&Vec<i32>>(),
+            size_of::<*const Vec<i32>>()
+        );
     }
 
     #[test]
